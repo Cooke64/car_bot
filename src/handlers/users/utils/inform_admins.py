@@ -2,13 +2,13 @@ import logging
 
 from aiogram.utils.exceptions import ChatNotFound
 
-from src.bot.config import settings
-from src.bot.database.devices.device_crud import DeviceCr
-from src.bot.database.shemas import OrderShema
-from src.bot.database.user_order.user_order_crud import UserOrder
-from src.bot.loader import bot
-from src.bot.states.buy_prod import BuyProdSchema
-from src.bot.states.order_state import UserOrderData
+from src.config import settings
+from src.database.devices.device_crud import DeviceCr
+from src.database.shemas import OrderShema
+from src.database.user_order.user_order_crud import UserOrder
+from src.loader import bot
+from src.states.buy_prod import BuyProdSchema
+from src.states.order_state import UserOrderData
 
 
 def get_prod_order(order_data: BuyProdSchema) -> str:
@@ -34,17 +34,17 @@ def get_message(mes_data: BuyProdSchema | UserOrderData) -> str:
 
 
 async def notify_admins(message_data: BuyProdSchema | UserOrderData):
+    mes = get_message(message_data)
+    data_to_save = OrderShema(
+        username=message_data.name,
+        phone=message_data.phone_number,
+        order=mes,
+    )
     for admin_id in settings.admins_id_list:
         try:
-            mes = get_message(message_data)
-            data_to_save = OrderShema(
-                username=message_data.name,
-                phone=message_data.phone_number,
-                order=mes,
-            )
-            UserOrder.create_user_order(data_to_save)
             await bot.send_message(admin_id, mes)
-            logging.info(mes)
         except ChatNotFound:
             logging.error(
                 'Пользователи не найдены или ошибочный id для админа')
+    UserOrder.create_user_order(data_to_save)
+    logging.info(mes)

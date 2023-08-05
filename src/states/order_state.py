@@ -1,7 +1,7 @@
 from enum import Enum
 
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class OrderProd(StatesGroup):

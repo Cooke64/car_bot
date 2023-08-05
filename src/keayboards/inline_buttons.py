@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from src.bot.database.car_service.car_crud import car_crud
-from src.bot.database.shemas import devices
+from src.database.car_service.car_crud import car_crud
+from src.database.devices.device_crud import DeviceCr
 
 TEST_USER_CHOICES = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -18,13 +18,13 @@ TEST_USER_CHOICES = InlineKeyboardMarkup(
 )
 
 
-def get_brands_list_kb():
-    brands = car_crud.get_all_brends()
+def get_brands_list_kb() -> InlineKeyboardMarkup:
+    brands = car_crud.brands_names
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text=item.name, callback_data=item.name
+                    text=item, callback_data=item
                 ) for item in brands
             ],
         ],
@@ -33,13 +33,13 @@ def get_brands_list_kb():
     return kb
 
 
-def get_brand_models_kb(brand_name: str):
-    models = car_crud.get_brand_models(brand_name)
+def get_brand_models_kb(brand_name: str) -> InlineKeyboardMarkup:
+    models = car_crud.get_models_names(brand_name)
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text=item.name, callback_data=item.name
+                    text=item, callback_data=item
                 ) for item in models
             ],
         ],
@@ -48,21 +48,14 @@ def get_brand_models_kb(brand_name: str):
     return kb
 
 
-def get_devices_list_kb():
-    kb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text=item.name, callback_data=item.name
-                ) for item in devices.devices
-            ],
-        ],
-        row_width=2,
-    )
-    return kb
+def get_devices_list_kb() -> InlineKeyboardMarkup:
+    inline_kb = InlineKeyboardMarkup()
+    for item in DeviceCr.device_names:
+        inline_kb.add(InlineKeyboardButton(item, callback_data=item))
+    return inline_kb
 
 
-def get_contact_links():
+def get_contact_links() -> InlineKeyboardMarkup:
     inline_links = InlineKeyboardMarkup(
         inline_keyboard=[
             [

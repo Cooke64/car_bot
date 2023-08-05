@@ -1,9 +1,9 @@
 from aiogram.dispatcher.filters import Text
 from aiogram.types import Message
 
-from src.bot.constants.keyboard_text import KeyBoardText as kb
-from src.bot.constants.constants import ABOUT_US, WHAT_WE_CAN
-from src.bot.loader import dp
+from src.constants.keyboard_text import KeyBoardText as kb
+from src.constants.constants import ABOUT_US, WHAT_WE_CAN
+from src.loader import dp
 
 
 @dp.message_handler(Text(equals=kb.ABOUT_US))

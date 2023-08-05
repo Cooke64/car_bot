@@ -1,7 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from src.bot.config import settings
-from src.bot.constants.keyboard_text import KeyBoardText
+from src.config import settings
+from src.constants.keyboard_text import KeyBoardText
 
 main_menu_buttons = ReplyKeyboardMarkup(
     keyboard=[

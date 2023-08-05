@@ -1,14 +1,15 @@
 import re
 
-from src.bot.database.car_service.car_crud import car_crud
-from src.bot.database.shemas import models, devices, DeviceItem, Brand
-from src.bot.states.order_state import UserOrderData
+from src.database.car_service.car_crud import car_crud
+from src.database.devices.device_crud import DeviceCr
+from src.database.shemas import DeviceItem
+from src.states.order_state import UserOrderData
 
 
 def get_cost(order_data: UserOrderData):
     try:
         brand = car_crud.get_brand_by_name(order_data.car_type)
-        device: DeviceItem = [item for item in devices.devices if item.name == item.name][0]
+        device: DeviceItem = DeviceCr.get_device_by_name(order_data.name)
         if brand and device:
             return brand.car_coef * device.price
         return 0

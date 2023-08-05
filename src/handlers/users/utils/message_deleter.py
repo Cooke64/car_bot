@@ -1,6 +1,6 @@
 from aiogram.types import CallbackQuery, Message
 
-from src.bot.loader import bot
+from src.loader import bot
 
 
 async def deleter(repl: CallbackQuery | Message, amount=1):

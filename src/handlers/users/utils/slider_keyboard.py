@@ -3,10 +3,10 @@ import logging
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
-from src.bot.config import settings
-from src.bot.database.images.image_crud import Images
-from src.bot.database.images.image_model import DeviceImages, DoneJobImages
-from src.bot.states.order_state import MediaMesTypes
+from src.config import settings
+from src.database.images.image_crud import Images
+from src.database.images.image_model import DeviceImages, DoneJobImages
+from src.states.order_state import MediaMesTypes
 
 items_callback = CallbackData("PhotoItems", "page")
 MEDIA = list[DeviceImages | DoneJobImages]
@@ -15,9 +15,9 @@ MEDIA = list[DeviceImages | DoneJobImages]
 def get_photo_items(medi_type: str):
     try:
         if medi_type == MediaMesTypes.devices.value:
-            items_from_bd: MEDIA = Images.get_all_devices_images()
+            items_from_bd: list[DeviceImages] = Images.get_all_devices_images()
         else:
-            items_from_bd: MEDIA = Images.get_done_job_images()
+            items_from_bd: list[DoneJobImages] = Images.get_done_job_images()
 
         photos = [
             {

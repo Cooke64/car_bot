@@ -4,12 +4,14 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.types import Message
 
-from src.bot.constants import constants
-from src.bot.constants.keyboard_text import KeyBoardText, \
+from src.constants import constants
+from src.constants.keyboard_text import (
+    KeyBoardText,
     OrderStateButtons as ok
-from src.bot.keayboards.inline_buttons import get_contact_links
-from src.bot.keayboards.main_menu import get_kb
-from src.bot.loader import dp
+)
+from src.keayboards.inline_buttons import get_contact_links
+from src.keayboards.main_menu import get_kb
+from src.loader import dp
 
 
 @dp.message_handler(text='/start')

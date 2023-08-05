@@ -1,8 +1,8 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from src.bot.database.fake_bd import fake_bd, devices as dev_list
+from src.database.fake_bd import fake_bd, devices as dev_list
 
 
 class ModelItem(BaseModel):
@@ -16,13 +16,15 @@ class Brand(BaseModel):
     models: List[ModelItem]
 
 
-class Model(BaseModel):
+class ModelShema(BaseModel):
     brend: list[Brand]
 
 
 class DeviceItem(BaseModel):
     name: str
     price: int | float
+    description: str
+    photo_name: str | None
 
 
 class DeviceList(BaseModel):
@@ -30,11 +32,7 @@ class DeviceList(BaseModel):
 
 
 class OrderShema(BaseModel):
-    username: str
+    username: str = Field(alias="username")
     phone: str
     order: str
 
-
-models = Model(**fake_bd)
-brand_names = [model.brand_name for model in models.brend]
-devices = DeviceList(**dev_list)

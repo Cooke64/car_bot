@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from src.bot.constants.keyboard_text import OrderStateButtons
+from src.constants.keyboard_text import OrderStateButtons
 
 
 def get_order_state_buttons():

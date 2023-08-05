@@ -1,30 +1,28 @@
 import datetime
 
 from aiogram.dispatcher import FSMContext
-from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
-
-from src.bot.constants.keyboard_text import KeyBoardText
-from src.bot.database.devices.device_crud import DeviceCr
-from src.bot.database.images.image_crud import Images
-from src.bot.handlers.users.order_job import get_next_month
-from src.bot.handlers.users.utils.inform_admins import notify_admins
-from src.bot.handlers.users.utils.message_deleter import deleter
-from src.bot.handlers.users.utils.user_order_service import \
+from aiogram.types import CallbackQuery, Message
+from src.database.devices.device_crud import DeviceCr
+from src.database.images.image_crud import Images
+from src.handlers.users.order_job import get_next_month
+from src.handlers.users.utils.inform_admins import notify_admins
+from src.handlers.users.utils.message_deleter import deleter
+from src.handlers.users.utils.user_order_service import \
     validate_phone_number
-from src.bot.keayboards.inline_buttons import (
+from src.keayboards.inline_buttons import (
     TEST_USER_CHOICES, get_time_inline_kb
 )
-from src.bot.keayboards.main_menu import get_kb
-from src.bot.keayboards.state_buttons import get_order_state_buttons
-from src.bot.loader import dp, bot
-from src.bot.services.tg_calendar import CalendarMarkup
-from src.bot.states.buy_prod import BuyProd, BuyProdSchema
+from src.keayboards.main_menu import get_kb
+from src.keayboards.state_buttons import get_order_state_buttons
+from src.loader import dp, bot
+from src.services.tg_calendar import CalendarMarkup
+from src.states.buy_prod import BuyProd, BuyProdSchema
 
 
 @dp.callback_query_handler(lambda call: call.data.startswith('buy'))
 async def buy_prods_start(call: CallbackQuery, state: FSMContext):
     await deleter(call, 2)
-    image = Images.get_photo_device(call.data.split()[1])
+    image = Images.get_photo(call.data.split()[1])
     if image:
         await bot.send_photo(
             chat_id=call.message.chat.id,
@@ -34,11 +32,11 @@ async def buy_prods_start(call: CallbackQuery, state: FSMContext):
 
         )
         await call.message.answer(
-            'Хотите приоюбрести данный товар?',
+            'Хотите приобрести данный товар?',
             reply_markup=TEST_USER_CHOICES
         )
         await BuyProd.is_correct_item.set()
-        await state.set_data(data={'dive_id': image.photo_id})
+        await state.set_data(data={'device_name': image.device.name})
 
 
 @dp.callback_query_handler(text=['1', '0'], state=BuyProd.is_correct_item)
@@ -89,6 +87,7 @@ async def get_date(call: CallbackQuery, state: FSMContext):
         )
     elif 'back' in mes or 'next' in mes:
         await get_next_month(call)
+        return
 
     await state.update_data(date=call.data.split()[1])
     await call.message.answer(
@@ -117,10 +116,9 @@ async def get_name(message: Message, state: FSMContext):
 
 def checked_message(order_data: BuyProdSchema) -> str:
     device = DeviceCr.get_device_by_name(order_data.device_name)
-    message = f'{order_data.name} Ваш заказ {order_data.device_name}'
+    message = f'{order_data.name}, Ваш заказ {device.name} по цене {device.price}.\n'
     if order_data.need_delivery:
-        message += f'доставка запланирована на {order_data.time} {order_data.date}'
-    message += f' без доставки'
+        message += f'Доставка запланирована на {order_data.time} {order_data.date}.'
     return message
 
 
@@ -134,7 +132,7 @@ async def get_phone_number_from_user(
     await deleter(message, 2)
     await state.update_data(phone_number=message.text)
     order_data = await state.get_data()
-    get_mes = checked_message(BuyProdSchema(**order_data, device_name='name'))
+    get_mes = checked_message(BuyProdSchema(**order_data))
     await message.answer(f"Проверьте ваш заказ. Все правильно?\n{get_mes}",
                          reply_markup=TEST_USER_CHOICES)
     await BuyProd.is_correct.set()
@@ -150,7 +148,7 @@ async def get_result(call: CallbackQuery, state: FSMContext):
         await BuyProd.need_delivery.set()
     else:
         order_data = await state.get_data()
-        await notify_admins(BuyProdSchema(**order_data, device_name='name'))
+        await notify_admins(BuyProdSchema(**order_data))
         await call.message.answer(
             'Ваш заказаз принят. Ожидайте звонка от администратора.',
             reply_markup=get_kb(call.message.from_user.id)

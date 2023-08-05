@@ -16,10 +16,9 @@ class KeyBoardText:
 class AdminButtons:
     ADD_MEDIA = 'Добавить фото с описанием'
     ADD_CAR = 'Добавить авто'
-    LOAD_WORK = 'Загрузить готовые работы'
-    LOAD_DEVICES = 'Загрузить продукцию'
     ORDERS = 'Заказы'
     BACK_TO_MAIN = '◀ Вернуться в главное меню.'
+    DUMB_ALL_DATA = 'Загрузить все данные'
 
 
 class OrderStateButtons:

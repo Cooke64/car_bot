@@ -3,10 +3,10 @@ import logging
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
-from src.bot.config import settings
-from src.bot.database.images.image_crud import Images
-from src.bot.database.images.image_model import DeviceImages, DoneJobImages
-from src.bot.states.order_state import MediaMesTypes
+from src.config import settings
+from src.database.images.image_crud import Images
+from src.database.images.image_model import DeviceImages, DoneJobImages
+from src.states.order_state import MediaMesTypes
 
 image_callback = CallbackData("Images", "page")
 MEDIA = list[DeviceImages | DoneJobImages]

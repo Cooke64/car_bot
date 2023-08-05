@@ -6,16 +6,16 @@ from aiogram.types import (
     ChatActions
 )
 
-from src.bot.constants.constants import OUR_JOB
-from src.bot.constants.keyboard_text import KeyBoardText as kb
-from src.bot.database.images.image_crud import Images
-from src.bot.handlers.users.utils.slider_keyboard import (
+from src.constants.constants import OUR_JOB
+from src.constants.keyboard_text import KeyBoardText as kb
+from src.database.images.image_crud import Images
+from src.handlers.users.utils.slider_keyboard import (
     get_photo_items,
     get_photo_callback_keyboard,
     items_callback
 )
-from src.bot.loader import dp, bot
-from src.bot.states.order_state import MediaMesTypes
+from src.loader import dp, bot
+from src.states.order_state import MediaMesTypes
 
 
 @dp.message_handler(Text(equals=kb.DONE_JOB))

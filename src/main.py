@@ -1,11 +1,7 @@
 import logging
 
 from aiogram import executor
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-from src.bot.config import settings
-from src.bot.services.set_bot_commands import set_commands
+from src.services.set_bot_commands import set_commands
 
 logging.basicConfig(
     level=logging.INFO,

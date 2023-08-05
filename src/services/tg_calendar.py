@@ -1,46 +1,28 @@
+import calendar
 import datetime
-from calendar import monthrange
+import locale
 from itertools import zip_longest
 from typing import List
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
-month_by_number = {
-    1: "Январь",
-    2: "Февраль",
-    3: "Март",
-    4: "Апрель",
-    5: "Май",
-    6: "Июнь",
-    7: "Июль",
-    8: "Август",
-    9: "Сентябрь",
-    10: "Октябрь",
-    11: "Ноябрь",
-    12: "Декабрь",
-}
+month_by_number = {num: month for num, month in
+                   enumerate(list(calendar.month_name)) if num > 0}
 
-DAY_NAMES = [
-    "Пн",
-    "Вт",
-    "Ср",
-    "Чт",
-    "Пт",
-    "Сб",
-    "Вс",
-]
+DAY_NAMES = list(calendar.day_abbr)
 
 
 class Markup:
     """Класс для создания и сборки клавиатуры календаря."""
 
     def __init__(
-        self,
-        title: str,
-        days_header: List[InlineKeyboardButton],
-        day_list: List[InlineKeyboardButton],
-        nav_buttons: List[InlineKeyboardButton],
+            self,
+            title: InlineKeyboardButton,
+            days_header: List[InlineKeyboardButton],
+            day_list: List[InlineKeyboardButton],
+            nav_buttons: List[InlineKeyboardButton],
     ) -> None:
         """Инициализация всех значений."""
         self.keyboard = InlineKeyboardMarkup()
@@ -70,21 +52,21 @@ class CalendarMarkup:
     def next_month(self) -> InlineKeyboardMarkup:
         """Получение данных на следующий месяц."""
         current_month = datetime.date(self.year, self.month, 5)
-        current_days_count = monthrange(self.year, self.month)[1]
+        current_days_count = calendar.monthrange(self.year, self.month)[1]
         next_date = current_month + datetime.timedelta(days=current_days_count)
         return CalendarMarkup(next_date.month, next_date.year).build
 
     def previous_month(self) -> InlineKeyboardMarkup:
         """Получение данных на предыдущий месяц."""
         current_month = datetime.date(self.year, self.month, 5)
-        current_days_count = monthrange(self.year, self.month)[1]
+        current_days_count = calendar.monthrange(self.year, self.month)[1]
         next_date = current_month - datetime.timedelta(days=current_days_count)
         return CalendarMarkup(next_date.month, next_date.year).build
 
     def title(self) -> InlineKeyboardButton:
         """Создание заголовка календаря."""
         return InlineKeyboardButton(
-            text=f"{month_by_number[self.month]} {self.year}",
+            text=f"{month_by_number[self.month]} {self.year} г.",
             callback_data="None",
         )
 
@@ -95,28 +77,35 @@ class CalendarMarkup:
             for day in DAY_NAMES
         ]
 
-    def get_days(self, days_count) -> int:
-        is_current_month = self.month == datetime.datetime.now().month
-        print(self.month == datetime.datetime.now().month)
+    def get_days(self) -> int:
+        is_current_month = (self.month == datetime.datetime.now().month)
         return datetime.datetime.now().day if is_current_month else 1
 
     def days(self) -> List[InlineKeyboardButton]:
         """Метод для заполнения календаря днями месяца."""
-        start_day, days_count = monthrange(self.year, self.month)
+        start_day, days_count = calendar.monthrange(self.year, self.month)
         week_days = [
-            InlineKeyboardButton(text=" ", callback_data="None")
-        ] * start_day
-        for i in range(self.get_days(days_count), days_count + 1):
+                        InlineKeyboardButton(text=" ", callback_data="None")
+                    ] * start_day
+        for i in range(self.get_days() - 1):
+            week_days.append(
+                InlineKeyboardButton(
+                    text=" ",
+                    callback_data="None"
+                )
+            )
+        for i in range(self.get_days(), days_count + 1):
             week_days.append(
                 InlineKeyboardButton(
                     text=str(i),
                     callback_data=f"date {i}.{self.month}.{self.year}",
                 )
             )
-        if len(week_days) % 7 != 0:
+        if start_day % 7 != 0:
             week_days += [
-                InlineKeyboardButton(text=" ", callback_data="None")
-            ] * (7 - len(week_days) % 7)
+                             InlineKeyboardButton(text=" ",
+                                                  callback_data="None")
+                         ] * (7 - len(week_days) % 7)
         return week_days
 
     def nav_buttons(self) -> List[InlineKeyboardButton]:

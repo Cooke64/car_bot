@@ -2,13 +2,13 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.types import Message
 
-from src.bot.constants.keyboard_text import AdminButtons as kb
-from src.bot.database.car_service.car_crud import car_crud
-from src.bot.database.car_service.car_service_model import BrendModelShema
-from src.bot.keayboards.main_menu import get_kb
-from src.bot.keayboards.state_buttons import get_order_state_buttons
-from src.bot.loader import dp
-from src.bot.states.add_prod_info import AddCarBrendModels
+from src.constants.keyboard_text import AdminButtons as kb
+from src.database.car_service.car_crud import car_crud
+from src.database.car_service.car_service_model import BrendModelShema
+from src.keayboards.main_menu import get_kb
+from src.keayboards.state_buttons import get_order_state_buttons
+from src.loader import dp
+from src.states.add_prod_info import AddCarBrendModels
 
 
 def check_and_get_coef(coef: str) -> float:
@@ -19,7 +19,7 @@ def check_and_get_coef(coef: str) -> float:
 
 
 @dp.message_handler(Text(equals=kb.ADD_CAR))
-async def start_user_test(message: Message):
+async def start_adding_car_process(message: Message):
     await message.answer(
         'Введи марку автомобиля',
         reply_markup=get_order_state_buttons()
@@ -32,7 +32,7 @@ def check_brand(brend_name):
 
 
 @dp.message_handler(state=AddCarBrendModels.brend_name)
-async def has_crime(message: Message, state: FSMContext):
+async def add_model_or_coef_brand(message: Message, state: FSMContext):
     await state.update_data(brend_name=message.text)
     if check_brand(message.text):
         await message.answer("Такой автомобиль уже есть\nВведи марку авто")
@@ -43,7 +43,7 @@ async def has_crime(message: Message, state: FSMContext):
 
 
 @dp.message_handler(state=AddCarBrendModels.brend_coef)
-async def has_crime(message: Message, state: FSMContext):
+async def add_model_or_coef_model(message: Message, state: FSMContext):
     coef = check_and_get_coef(message.text)
     if not coef:
         await message.answer(
@@ -60,7 +60,7 @@ def check_model(model_name):
 
 
 @dp.message_handler(state=AddCarBrendModels.model_name)
-async def has_crime(message: Message, state: FSMContext):
+async def get_result(message: Message, state: FSMContext):
     if not check_model(model_name=message.text):
         await state.update_data(model_name=message.text)
         await message.answer("Введи коэфицент новой марки от 0.5 до 2.0")
@@ -76,7 +76,7 @@ async def has_crime(message: Message, state: FSMContext):
 
 
 @dp.message_handler(state=AddCarBrendModels.model_coef)
-async def has_crime(message: Message, state: FSMContext):
+async def save_result(message: Message, state: FSMContext):
     coef = check_and_get_coef(message.text)
     if not coef:
         await message.answer(

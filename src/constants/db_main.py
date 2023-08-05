@@ -53,3 +53,90 @@ Wi-Fi, Bluetooth, поддержка камеры заднего вида и д�
 У нас также можно заказать услугу по установке магнитолы. Также в наличии камеры заднего вида, видеорегистраторы и другие аксессуары.
 В магнитоле: блютуз, вай-фай, поддержка подключения телефона, плей маркет и многое другое.
 """}
+
+
+BRANDS_AND_MODELS = {"brend": [
+    {
+        "brand_name": "kia",
+        "brand_coef": 1,
+        "models": [
+            {
+                "model_name": "rio",
+                "model_coef": 1.0
+            },
+            {
+                "model_name": "sorento",
+                "model_coef": 1.10
+            }
+        ]
+    },
+    {
+        "brand_name": "opel",
+        "brand_coef": 0.95,
+        "models": [
+            {
+                "model_name": "astra",
+                "model_coef": 1.0
+            },
+            {
+                "model_name": "corse",
+                "model_coef": 1.0
+            }
+        ]
+    },
+    {
+        "brand_name": "mersedes",
+        "brand_coef": 1.10,
+        "models": [
+            {
+                "model_name": "s-class",
+                "model_coef": 1.10
+            },
+            {
+                "model_name": "c-class",
+                "model_coef": 1.0
+            }
+        ]
+    },
+]
+}
+
+DEVICES_LIST = {
+    'devices': [
+        {'name': 'Мультимедийная система',
+         'price': 9000,
+         'photo_name': '1',
+         'description': 'description'
+         },
+        {'name': 'Камера заднего вида',
+         'price': 3000,
+         'photo_name': '2',
+         'description': 'description'
+         },
+        {'name': 'мульитимедиа Tesla-style',
+         'price': 3000,
+         'photo_name': '3',
+         'description': 'description'
+         },
+        {'name': 'мульитимедиа Tesla-style',
+         'price': 3000,
+         'photo_name': '4',
+         'description': 'description'
+         },
+        {'name': 'мульитимедиа Tesla-style',
+         'price': 3000,
+         'photo_name': '5',
+         'description': 'description'
+         },
+        {'name': 'мульитимедиа Tesla-style',
+         'price': 3000,
+         'photo_name': '6',
+         'description': 'description'
+         },
+        {'name': 'мульитимедиа Tesla-style',
+         'price': 3000,
+         'photo_name': '7',
+         'description': 'description'
+         },
+    ]
+}

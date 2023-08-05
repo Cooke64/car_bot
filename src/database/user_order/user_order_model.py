@@ -2,9 +2,9 @@ from datetime import datetime
 
 from sqlalchemy import Column as _, Integer, String, DateTime, Boolean, \
     ForeignKey, Text
-from sqlalchemy.orm import relationship
 
-from src.bot.database.base.base_model import BaseModel
+
+from src.database.base.base_model import BaseModel
 
 
 class UserOrders(BaseModel):

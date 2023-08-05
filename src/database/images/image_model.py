@@ -1,6 +1,7 @@
 import sqlalchemy as sa
+from sqlalchemy.orm import relationship
 
-from src.bot.database.base.base_model import BaseModel
+from src.database.base.base_model import BaseModel
 
 
 class BaseImage(BaseModel):
@@ -11,8 +12,10 @@ class BaseImage(BaseModel):
 
 
 class DeviceImages(BaseImage):
-    __tablename__ = 'device_images'
-    pass
+    __tablename__ = 'devices_images'
+    device_id = sa.Column(
+        sa.Integer, sa.ForeignKey('devices.id', ondelete="CASCADE"))
+    device = relationship('Device', back_populates='image')
 
 
 class DoneJobImages(BaseImage):

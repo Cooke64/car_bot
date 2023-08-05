@@ -4,22 +4,20 @@ from aiogram.types import (
     Message,
     CallbackQuery,
     ReplyKeyboardRemove,
-    ContentType, InputFile
+    ContentType
 )
 
-from get_media_files import get_media, save_photo_with_descr,  \
-    get_media_divecs, done_save_devices_photos
-from src.bot.constants.constants import ADD_MEDIA_HELP_TEXT
-from src.bot.constants.keyboard_text import AdminButtons as kb
-from src.bot.database.images.image_crud import Images
-from src.bot.keayboards.inline_buttons import (
+from src.constants.constants import ADD_MEDIA_HELP_TEXT
+from src.constants.keyboard_text import AdminButtons as kb
+from src.database.images.image_crud import Images
+from src.keayboards.inline_buttons import (
     TEST_USER_CHOICES,
     MEDIA_TYPES
 )
-from src.bot.keayboards.main_menu import main_menu_buttons
-from src.bot.loader import dp, bot
-from src.bot.states.add_media import AddMedia, AddMediaShema
-from src.bot.states.order_state import AVAIBLE_MEDIA_MESSAGES
+from src.keayboards.main_menu import main_menu_buttons
+from src.loader import dp, bot
+from src.states.add_media import AddMedia, AddMediaShema
+from src.states.order_state import AVAIBLE_MEDIA_MESSAGES
 
 
 async def start_adding_mediamessage(
@@ -91,30 +89,3 @@ async def dd_photo_and_get_results(message: Message, state: FSMContext):
     mes = 'Закончили'
     await message.answer(mes, reply_markup=main_menu_buttons)
     await state.finish()
-
-
-# Загрузка фотографий готовой работы из базы данных.
-@dp.message_handler(Text(equals=kb.LOAD_WORK))
-async def load_done_images(message: Message):
-    for i, name in get_media():
-        photo = InputFile(i)
-        res = await bot.send_photo(chat_id=message.chat.id, photo=photo)
-        medai_file = {
-            'photo_id': res.photo[-1].file_id,
-            'file_unique_id': res.photo[-1].file_unique_id,
-            'name': name.split('.')[0]
-        }
-        save_photo_with_descr(medai_file)
-
-
-@dp.message_handler(Text(equals=kb.LOAD_DEVICES))
-async def load_done_images(message: Message):
-    for i, name in get_media_divecs():
-        photo = InputFile(i)
-        res = await bot.send_photo(chat_id=message.chat.id, photo=photo)
-        medai_file = {
-            'photo_id': res.photo[-1].file_id,
-            'file_unique_id': res.photo[-1].file_unique_id,
-            'name': name.split('.')[0]
-        }
-        done_save_devices_photos(medai_file)

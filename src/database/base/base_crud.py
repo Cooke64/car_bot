@@ -3,8 +3,8 @@ from typing import Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Query, Session, sessionmaker
 
-from src.bot.config import settings
-from src.bot.database.base.base_model import BaseModel
+from src.config import settings
+from src.database.base.base_model import BaseModel
 
 
 class BaseCrud:
