@@ -210,10 +210,10 @@ async def try_drugs_and_get_result(call: CallbackQuery, state: FSMContext):
     else:
         order = UserOrderData(**order_data)
         UserOrder.create_user_order(order)
+        await call.message.answer('Вы вернулись на главную', reply_markup=get_kb(call.message.from_user.id),)
         await call.answer(
             'Ваш заказаз принят. В ближайшее время с вами свяжется наш сотрудинк, чтобы подтвердить заказ.',
             show_alert=True
         )
-        await call.message.answer('Вы вернулись на главную', reply_markup=get_kb(call.message.from_user.id),)
         logging.info(order)
         await state.finish()

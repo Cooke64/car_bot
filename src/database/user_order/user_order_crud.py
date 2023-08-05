@@ -2,7 +2,6 @@ from src.database.base.base_crud import BaseCrud
 from src.database.car_service.car_service_model import CarBrend, Model
 from src.database.shemas import OrderShema
 from src.database.user_order.user_order_model import Order
-from src.handlers.users.utils.user_order_service import get_result_message
 from src.states.order_state import UserOrderData
 
 
@@ -19,7 +18,7 @@ class UserOrderCrud(BaseCrud):
         if isinstance(order, UserOrderData):
             new_order = Order(username=order.name,
                               phone=order.phone_number,
-                              order=get_result_message(order)
+                              order='rrr'
                               )
         else:
             new_order = Order(username=order.username,
