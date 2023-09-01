@@ -31,7 +31,7 @@ async def get_photo_slider(message: Message):
         await bot.send_photo(
             chat_id=message.chat.id,
             photo=photo_data.get('image_url'),
-            caption=f'<b>{photo_data.get("description")}</b>',
+            caption=f'<b>Ориентировочная цена: {photo_data.get("description")}</b>',
             reply_markup=get_prods_callback_keyboard(
                 len_items=len(items),
                 user_id=message.from_user.id,

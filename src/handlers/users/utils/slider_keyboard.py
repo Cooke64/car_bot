@@ -23,7 +23,7 @@ def get_photo_items(medi_type: str):
             {
                 'slug': item.file_unique_id,
                 'image_url': item.photo_id,
-                'description': item.description
+                'description': item.description or item.device.price
             } for item in
             items_from_bd
         ]

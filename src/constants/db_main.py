@@ -61,40 +61,62 @@ BRANDS_AND_MODELS = {"brend": [
         "brand_coef": 1,
         "models": [
             {
-                "model_name": "rio",
+                "model_name": "rio 3",
                 "model_coef": 1.0
             },
             {
-                "model_name": "sorento",
+                "model_name": "rio 4",
+                "model_coef": 1.05
+            },
+            {
+                "model_name": "cerat0",
                 "model_coef": 1.10
+            },
+            {
+                "model_name": "Ceed",
+                "model_coef": 1.07
             }
         ]
     },
     {
-        "brand_name": "opel",
-        "brand_coef": 0.95,
+        "brand_name": "Hyundai",
+        "brand_coef": 1.0,
         "models": [
             {
-                "model_name": "astra",
+                "model_name": "Solaris",
                 "model_coef": 1.0
             },
             {
-                "model_name": "corse",
+                "model_name": "Sonata",
                 "model_coef": 1.0
             }
         ]
     },
     {
-        "brand_name": "mersedes",
+        "brand_name": "Skoda",
         "brand_coef": 1.10,
         "models": [
             {
-                "model_name": "s-class",
+                "model_name": "Octavia 3",
                 "model_coef": 1.10
             },
             {
-                "model_name": "c-class",
+                "model_name": "Octavia 2",
                 "model_coef": 1.0
+            }
+        ]
+    },
+    {
+        "brand_name": "Lada",
+        "brand_coef": 1.0,
+        "models": [
+            {
+                "model_name": "Vesta",
+                "model_coef": 1.0
+            },
+            {
+                "model_name": "XRAY",
+                "model_coef": 1.05
             }
         ]
     },
@@ -103,39 +125,44 @@ BRANDS_AND_MODELS = {"brend": [
 
 DEVICES_LIST = {
     'devices': [
-        {'name': 'Мультимедийная система',
-         'price': 9000,
-         'photo_name': '1',
+        {'name': 'Мультимедийная система Sckoda Octavia 2',
+         'price': 7900,
+         'photo_name': 'octavia_2',
          'description': 'description'
          },
-        {'name': 'Камера заднего вида',
-         'price': 3000,
-         'photo_name': '2',
+        {'name': 'Мультимедийная система Sckoda Octavia 3',
+         'price': 13490,
+         'photo_name': 'octavia_3',
          'description': 'description'
          },
-        {'name': 'мульитимедиа Tesla-style',
-         'price': 3000,
-         'photo_name': '3',
+        {'name': 'Мультимедийная система Kia Rio 4',
+         'price': 11900,
+         'photo_name': 'rio_4',
          'description': 'description'
          },
-        {'name': 'мульитимедиа Tesla-style',
-         'price': 3000,
-         'photo_name': '4',
+        {'name': 'Мультимедийная система Kia Rio 3',
+         'price': 9899,
+         'photo_name': 'rio_3',
          'description': 'description'
          },
-        {'name': 'мульитимедиа Tesla-style',
-         'price': 3000,
-         'photo_name': '5',
+        {'name': 'Мультимедийная система Kia Ceed',
+         'price': 8500,
+         'photo_name': 'seed',
          'description': 'description'
          },
-        {'name': 'мульитимедиа Tesla-style',
-         'price': 3000,
-         'photo_name': '6',
+        {'name': 'Мультимедийная система на Hyundai Solaris 2',
+         'price': 8900,
+         'photo_name': 'solaris_1',
          'description': 'description'
          },
-        {'name': 'мульитимедиа Tesla-style',
-         'price': 3000,
-         'photo_name': '7',
+        {'name': 'Мультимедийная система на LADA Vesta',
+         'price': 6900,
+         'photo_name': 'vesta',
+         'description': 'description'
+         },
+        {'name': 'Мультимедийная система на LADA XRAY',
+         'price': 12999,
+         'photo_name': 'xray',
          'description': 'description'
          },
     ]

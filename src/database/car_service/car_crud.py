@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import joinedload
 
 from src.database.base.base_crud import BaseCrud
@@ -19,9 +21,11 @@ class CarCrud(BaseCrud):
         return [brand.name for brand in self.get_all_brends()]
 
     @lru_cache()
-    def get_models_names(self, brand_name: str) -> list[str]:
+    def get_models_names(self, brand_name: str) -> Optional[list[str]]:
         """Возвращает список названий модели в бренде. Возвращает список названий в строковм виде."""
-        return [model.name for model in self.get_brand_models(brand_name)]
+        if self.get_brand_models(brand_name):
+            return [model.name for model in self.get_brand_models(brand_name)]
+        return None
 
     def get_all_brends(self) -> list[CarBrend]:
         return self.session.query(CarBrend).options(

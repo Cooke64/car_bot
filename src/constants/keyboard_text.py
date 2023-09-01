@@ -19,6 +19,7 @@ class AdminButtons:
     ORDERS = 'Заказы'
     BACK_TO_MAIN = '◀ Вернуться в главное меню.'
     DUMB_ALL_DATA = 'Загрузить все данные'
+    DROP_ALL_DATA = 'Удалить все данные'
 
 
 class OrderStateButtons:

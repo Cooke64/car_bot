@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from src.database.car_service.car_crud import car_crud
-from src.database.devices.device_crud import DeviceCr
+from src.database.fake_bd import devices
 
 TEST_USER_CHOICES = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -50,8 +50,10 @@ def get_brand_models_kb(brand_name: str) -> InlineKeyboardMarkup:
 
 def get_devices_list_kb() -> InlineKeyboardMarkup:
     inline_kb = InlineKeyboardMarkup()
-    for item in DeviceCr.device_names:
-        inline_kb.add(InlineKeyboardButton(item, callback_data=item))
+    for item in devices.get('devices'):
+        item_name = item.get('name')
+        inline_kb.add(
+            InlineKeyboardButton(item_name, callback_data=item_name))
     return inline_kb
 
 

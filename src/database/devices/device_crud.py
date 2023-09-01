@@ -33,4 +33,5 @@ class DeviceCrud(BaseCrud):
             return self.create_item(new_device)
         return query
 
+
 DeviceCr = DeviceCrud()

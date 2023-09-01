@@ -13,6 +13,7 @@ from src.constants.keyboard_text import (
 )
 from src.database.car_service.car_crud import car_crud
 from src.database.devices.device_crud import DeviceCr
+from src.database.fake_bd import devices
 from src.database.user_order.user_order_crud import UserOrder
 from src.handlers.users.utils.message_deleter import deleter
 from src.handlers.users.utils.user_order_service import (
@@ -79,6 +80,7 @@ async def get_production_type(call: CallbackQuery, state: FSMContext):
     await OrderProd.model_type.set()
     data = await state.get_data()
     global __BRAND_NAMES
+
     __BRAND_NAMES = data.get('car_type')
 
 
@@ -97,10 +99,10 @@ async def get_production_type(call: CallbackQuery, state: FSMContext):
 
 
 @dp.callback_query_handler(
-    text=DeviceCr.device_names,
+    lambda call: call.data in [i.get('name') for i in devices.get('devices')],
     state=OrderProd.prod_type
 )
-async def get_nationality(call: CallbackQuery, state: FSMContext):
+async def get_calendar(call: CallbackQuery, state: FSMContext):
     await state.update_data(prod_type=call.data)
     current_date = datetime.datetime.now()
     current_month = current_date.month
@@ -119,7 +121,7 @@ async def get_nationality(call: CallbackQuery, state: FSMContext):
                            state=OrderProd.date)
 @dp.callback_query_handler(lambda call: 'date' in call.data,
                            state=OrderProd.date)
-async def has_crime(call: CallbackQuery, state: FSMContext):
+async def calendar_handler(call: CallbackQuery, state: FSMContext):
     mes = call.data
     if 'date' in mes:
         await bot.delete_message(
@@ -161,7 +163,7 @@ async def get_next_month(call: CallbackQuery) -> None:
 
 
 @dp.callback_query_handler(text=['1', '0'], state=OrderProd.self_or_not)
-async def try_drugs_and_get_result(call: CallbackQuery, state: FSMContext):
+async def get_name(call: CallbackQuery, state: FSMContext):
     await state.update_data(self_or_not=int(call.data))
     await deleter(call)
     await call.message.answer(
@@ -171,7 +173,7 @@ async def try_drugs_and_get_result(call: CallbackQuery, state: FSMContext):
 
 
 @dp.message_handler(state=OrderProd.name)
-async def has_crime(message: Message, state: FSMContext):
+async def get_phone_and_accept_order(message: Message, state: FSMContext):
     await state.update_data(name=message.text)
     await deleter(message, 2)
     await message.answer("Оставьте ваш номер телефона, чтобы мы могли вам перезвонить и подтвердить заказ")
@@ -195,7 +197,7 @@ async def get_phone_number_from_user(
 
 
 @dp.callback_query_handler(text=['1', '0'], state=OrderProd.is_correct)
-async def try_drugs_and_get_result(call: CallbackQuery, state: FSMContext):
+async def finish_order(call: CallbackQuery, state: FSMContext):
     await deleter(call, 2)
     order_data = await state.get_data()
     if not int(call.data):

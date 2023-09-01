@@ -68,6 +68,8 @@ def dumb_cars_and_models():
 
 
 async def dumb_data(message: Message):
-    # await dumb_devices(message)
-    # await dumb_done_jobs(message)
     dumb_cars_and_models()
+    await dumb_devices(message)
+    await dumb_done_jobs(message)
+
+dumb_cars_and_models()

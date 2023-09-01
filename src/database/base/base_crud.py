@@ -60,3 +60,11 @@ class BaseCrud:
         query = self.session.query(model).filter_by(**kwargs).first()
         if query:
             return query
+
+    def drop_table(self, model):
+        try:
+            self.session.query(model).delete()
+            self.session.commit()
+        except:
+            self.session.rollback()
+

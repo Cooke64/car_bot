@@ -13,3 +13,4 @@ class Device(BaseModel):
     image = relationship('DeviceImages', back_populates='device',
                          cascade="all, delete",
                          passive_deletes=True, uselist=False)
+    description = sa.Column(sa.Text)

@@ -9,7 +9,11 @@ from src.loader import dp
 @dp.message_handler(Text(equals=kb.ORDERS))
 async def start_user_test(message: Message):
     orders = UserOrder.get_orders()
+    if not orders:
+        await message.answer('Заказов пока нет:(')
+        return
     for order in orders:
         await message.answer(
             order.order
         )
+
